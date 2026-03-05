@@ -1,0 +1,10 @@
+[
+  {
+    "instruction": "Summarize: Artificial intelligence is transforming industries...",
+    "output": "Artificial intelligence improves automation and decision making."
+  },
+  {
+    "instruction": "Explain AI briefly",
+    "output": "AI is the simulation of human intelligence by machines."
+  }
+]
