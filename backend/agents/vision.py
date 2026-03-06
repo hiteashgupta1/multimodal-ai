@@ -3,9 +3,9 @@ import cv2
 import numpy as np
 import time
 from config import HF_TOKEN, VISION_MODEL
-from rag.memory_store import store_memory
-from evaluation.log_metrics import log_metric
-from experiments.experiment_tracker import log_experiment
+from backend.rag.memory_store import store_memory
+from backend.evaluation.log_metrics import log_metric
+from backend.experiments.experiment_tracker import log_experiment
 
 def detect_objects(image_bytes):
 
@@ -97,4 +97,5 @@ def detect_objects(image_bytes):
         "objects": detected_objects,
         "latency": latency,
         "confidence": avg_conf
+
     }
