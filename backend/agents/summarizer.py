@@ -4,10 +4,10 @@ import fitz
 import time
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
-from agents.rag_agent import retrieve_context
-from rag.memory_store import store_memory, retrieve_memory
-from evaluation.log_metrics import log_metric
-from experiments.experiment_tracker import log_experiment
+from backend.agents.rag_agent import retrieve_context
+from backend.rag.memory_store import store_memory, retrieve_memory
+from backend.evaluation.log_metrics import log_metric
+from backend.experiments.experiment_tracker import log_experiment
 
 BASE_MODEL = "distilgpt2"
 
@@ -177,3 +177,4 @@ def summarize(input_text=None, pdf_bytes=None):
         "hallucinated": hallucinated,
         "hallucination_ratio": ratio
     }
+
