@@ -1,13 +1,13 @@
 from fastapi import FastAPI, UploadFile, File, Form, Body
-from agents.summarizer import summarize
-from agents.vision import detect_objects
-from agents.tts import text_to_speech
+from backend.agents.summarizer import summarize
+from backend.agents.vision import detect_objects
+from backend.agents.tts import text_to_speech
 from fastapi.responses import JSONResponse
 from fastapi.responses import Response
-from agents.text2image import generate_image
-from agents.feedback import log_feedback
-from agents.orchestrator import smart_orchestrate
-from agents.router_agent import route_query
+from backend.agents.text2image import generate_image
+from backend.agents.feedback import log_feedback
+from backend.agents.orchestrator import smart_orchestrate
+from backend.agents.router_agent import route_query
 from pydantic import BaseModel
 from feedback_store import save_feedback
 import sqlite3
@@ -129,5 +129,6 @@ async def submit_feedback(data: FeedbackRequest):
 
     # Log feedback (your existing function)
     save_feedback(input_text, data.rating, comment)
+
 
     return {"status": "Feedback saved successfully"}
