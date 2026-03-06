@@ -1,0 +1,10 @@
+[
+  {
+    "input": "Summarize this article",
+    "output": "This article explains..."
+  },
+  {
+    "input": "Explain machine learning",
+    "output": "Machine learning is..."
+  }
+]
