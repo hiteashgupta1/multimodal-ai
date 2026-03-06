@@ -46,25 +46,45 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
 MODEL_DIR = os.path.join(PROJECT_ROOT, "models")
 
-tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
-
-base_model = AutoModelForCausalLM.from_pretrained(BASE_MODEL)
 
 ADAPTER_PATH = get_latest_model()
 
-if ADAPTER_PATH and os.path.exists(os.path.join(ADAPTER_PATH, "adapter_config.json")):
+tokenizer = None
+model = None
 
-    print("Loading LoRA adapter:", ADAPTER_PATH)
 
-    model = PeftModel.from_pretrained(base_model, ADAPTER_PATH)
+def load_model():
 
-else:
+    global tokenizer, model
 
-    print("No adapter found — using base model")
+    if model is None:
 
-    model = base_model
+        print("Loading AI model...")
 
-model.eval()
+        tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+
+        base_model = AutoModelForCausalLM.from_pretrained(
+            BASE_MODEL,
+            torch_dtype=torch.float32,
+            low_cpu_mem_usage=True
+        )
+
+        if ADAPTER_PATH and os.path.exists(ADAPTER_PATH):
+
+            model = PeftModel.from_pretrained(
+                base_model,
+                ADAPTER_PATH
+            )
+
+        else:
+
+            model = base_model
+
+        model.eval()
+
+        print("Model loaded successfully")
+
+    return tokenizer, model
 
 
 def extract_pdf_text(pdf_bytes):
@@ -124,16 +144,18 @@ def summarize(input_text=None, pdf_bytes=None):
     combined_input = context + "\n\nSummarize:\n" + text[:1000]
 
 
-    inputs = tokenizer(combined_input, return_tensors="pt")
+    tokenizer, model = load_model()
 
-    with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=120,
-            temperature=0.7,
-            do_sample=True,
-            top_p=0.9
-        )
+    inputs = tokenizer(text, return_tensors="pt")
+
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=80,
+        temperature=0.7,
+        do_sample=True,
+        top_p=0.9
+    )
+
 
     decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
@@ -177,4 +199,5 @@ def summarize(input_text=None, pdf_bytes=None):
         "hallucinated": hallucinated,
         "hallucination_ratio": ratio
     }
+
 
