@@ -15,6 +15,10 @@ import sqlite3
 
 app = FastAPI()
 
+@app.get("/")
+def home():
+    return {"status": "Multimodal AI backend running"}
+
 @app.post("/query")
 async def query_api(text: str = Form(None), file: UploadFile = File(None)):
 
@@ -132,3 +136,4 @@ async def submit_feedback(data: FeedbackRequest):
 
 
     return {"status": "Feedback saved successfully"}
+
