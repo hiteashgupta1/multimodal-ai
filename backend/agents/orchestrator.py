@@ -1,6 +1,6 @@
-from agents.summarizer import summarize
-from agents.vision import detect_objects
-from evaluation.calibration import calibrate
+from backend.agents.summarizer import summarize
+from backend.agents.vision import detect_objects
+from backend.evaluation.calibration import calibrate
 
 def smart_orchestrate(text=None, image=None):
 
@@ -36,4 +36,5 @@ def smart_orchestrate(text=None, image=None):
         "results": results,
         "confidence": overall_conf,
         "agents_used": agent_used
+
     }
