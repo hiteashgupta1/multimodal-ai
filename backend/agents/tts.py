@@ -20,7 +20,7 @@ def text_to_speech(text):
         confidence=0.95,
         latency=latency,
         hallucination=False,
-        model_version="v1"
+        model_version="audio_v1"
     )
 
     try:

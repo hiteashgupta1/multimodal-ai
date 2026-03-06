@@ -110,5 +110,29 @@
     "latency": 9.5,
     "hallucination": false,
     "model_version": "yolo_v1"
+  },
+  {
+    "timestamp": "2026-03-06 02:17:05.417329",
+    "agent": "summarizer",
+    "confidence": 0.1,
+    "latency": 8.38,
+    "hallucination": true,
+    "model_version": "orchestrator_v3"
+  },
+  {
+    "timestamp": "2026-03-06 11:26:16.784760",
+    "agent": "summarizer",
+    "confidence": 0.1,
+    "latency": 5.28,
+    "hallucination": true,
+    "model_version": "orchestrator_v3"
+  },
+  {
+    "timestamp": "2026-03-06 11:28:50.402150",
+    "agent": "tts",
+    "confidence": 0.95,
+    "latency": 0.0,
+    "hallucination": false,
+    "model_version": "audio_v1"
   }
 ]

@@ -7,10 +7,14 @@ from transformers import (
     Trainer
 )
 from peft import LoraConfig, get_peft_model
+from auto_retrain import get_next_model_version
 
 BASE_MODEL = "distilgpt2"
-DATA_PATH = "training/data/train.json"
-OUTPUT_DIR = "models/orchestrator_v2"
+DATA_PATH = "training/train.json"
+version = get_next_model_version()
+OUTPUT_DIR = f"models/orchestrator_v{version}"
+
+print("Saving model version:", version)
 
 # -----------------------------
 # LOAD TOKENIZER
@@ -27,16 +31,19 @@ dataset = load_dataset("json", data_files=DATA_PATH)["train"]
 
 def preprocess(example):
 
-    prompt = f"### Instruction:\n{example['instruction']}\n\n### Response:\n{example['output']}"
+    instruction = example.get("instruction") or example.get("input") or ""
+    output = example.get("output") or ""
+
+    prompt = f"### Instruction:\n{instruction}\n\n### Response:\n{output}"
 
     tokens = tokenizer(
         prompt,
         truncation=True,
         padding="max_length",
-        max_length=128
+        max_length=512
     )
 
-    tokens["labels"] = tokens["input_ids"].copy()
+    tokens["labels"] = tokens["input_ids"]
 
     return tokens
 

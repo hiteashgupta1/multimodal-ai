@@ -1,4 +1,4 @@
-timestamp,input_text,rating
+timestamp,input_text,rating,comment
 2026-03-03 12:26:47,N/A,4
 2026-03-03 12:38:58,N/A,4
 2026-03-03 13:08:03,N/A,4,good

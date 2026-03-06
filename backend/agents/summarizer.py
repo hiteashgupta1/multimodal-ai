@@ -11,19 +11,73 @@ from experiments.experiment_tracker import log_experiment
 
 BASE_MODEL = "distilgpt2"
 
+
+# ----------------------------
 # Resolve project root
+# ----------------------------
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# agents → backend → project root
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
-ADAPTER_PATH = os.path.join(PROJECT_ROOT, "models", "orchestrator_v2")
 
-print("Loading LoRA from:", ADAPTER_PATH)
+MODEL_DIR = os.path.join(PROJECT_ROOT, "models")
 
-# Load tokenizer + base model
+def get_latest_model():
+
+    versions = []
+
+    if not os.path.exists(MODEL_DIR):
+        print("Models directory not found")
+        return None
+
+    for name in os.listdir(MODEL_DIR):
+
+        if name.startswith("orchestrator_v"):
+
+            try:
+                v = int(name.replace("orchestrator_v", ""))
+                versions.append(v)
+            except:
+                pass
+
+    if not versions:
+        print("No trained models found")
+        return None
+
+    latest = max(versions)
+
+    latest_path = os.path.join(MODEL_DIR, f"orchestrator_v{latest}")
+
+    print("Latest model detected:", latest_path)
+
+    return latest_path
+
+
+print("Project root:", PROJECT_ROOT)
+print("Model directory:", MODEL_DIR)
+
+
+# Load Adapter
+
+
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+
 base_model = AutoModelForCausalLM.from_pretrained(BASE_MODEL)
 
-# Attach LoRA adapter
-model = PeftModel.from_pretrained(base_model, ADAPTER_PATH)
+ADAPTER_PATH = get_latest_model()
+
+if ADAPTER_PATH and os.path.exists(os.path.join(ADAPTER_PATH, "adapter_config.json")):
+
+    print("Loading LoRA adapter:", ADAPTER_PATH)
+
+    model = PeftModel.from_pretrained(base_model, ADAPTER_PATH)
+
+else:
+
+    print("No LoRA adapter found — using base model")
+
+    model = base_model
+
 model.eval()
 
 
@@ -116,7 +170,7 @@ def summarize(input_text=None, pdf_bytes=None):
     # ✅ Log metrics
     log_metric(
         agent="summarizer",
-        model_version="orchestrator_v2",
+        model_version="orchestrator_v3",
         confidence=confidence,
         object_count=None,
         latency=latency,
@@ -128,7 +182,7 @@ def summarize(input_text=None, pdf_bytes=None):
         confidence=confidence,
         latency=latency,
         hallucination=hallucinated,
-        model_version="orchestrator_v2"
+        model_version="orchestrator_v3"
     )
 
     return {

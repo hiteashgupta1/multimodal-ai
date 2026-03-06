@@ -20,3 +20,6 @@ timestamp,agent,model_version,confidence,latency,hallucination,object_count
 2026-03-06 00:04:34,vision,yolo_v1,0.82,9.71,False,3
 2026-03-06 00:09:05,summarizer,orchestrator_v2,0.1,7.08,True,
 2026-03-06 00:09:36,vision,yolo_v1,0.89,9.5,False,31
+2026-03-06 02:17:05,summarizer,orchestrator_v3,0.1,8.38,True,
+2026-03-06 11:26:16,summarizer,orchestrator_v3,0.1,5.28,True,
+2026-03-06 11:28:50,tts,v1,0.95,0.0,False,

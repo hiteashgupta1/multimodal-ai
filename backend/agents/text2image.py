@@ -24,7 +24,7 @@ def generate_image(prompt):
         confidence=0.99,
         latency=latency,
         hallucination=False,
-        model_version="v1"
+        model_version="img_v1"
     )
 
     try:
