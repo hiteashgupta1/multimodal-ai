@@ -6,19 +6,12 @@ from sentence_transformers import SentenceTransformer
 # Load embedding model
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-dimension = 384
-index_file = "backend/rag/memory.index"
 
-memory = []
 
-# Load existing index OR create new one
-if os.path.exists(index_file):
-    print("Loading existing FAISS memory index")
-    index = faiss.read_index(index_file)
+if os.path.exists("backend/rag/memory.index"):
+    index = faiss.read_index("backend/rag/memory.index")
 else:
-    print("Creating new FAISS memory index")
-    index = faiss.IndexFlatL2(dimension)
-
+    index = faiss.IndexFlatL2(384)
 
 def store_memory(text):
 
@@ -50,5 +43,6 @@ def retrieve_memory(query, k=3):
     for idx in indices[0]:
         if idx < len(memory):
             results.append(memory[idx])
+
 
     return "\n".join(results)
