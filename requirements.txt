@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+torch --index-url https://download.pytorch.org/whl/cpu
+transformers
+peft
+sentence-transformers
+faiss-cpu
+pandas
+numpy
+python-multipart
+pymupdf
+accelerate
+scikit-learn
