@@ -1,8 +1,8 @@
 from gtts import gTTS
 import io
 import time
-from evaluation.log_metrics import log_metric
-from experiments.experiment_tracker import log_experiment
+from backend.evaluation.log_metrics import log_metric
+from backend.experiments.experiment_tracker import log_experiment
 
 def text_to_speech(text):
     start = time.time()
@@ -33,3 +33,4 @@ def text_to_speech(text):
         print("gTTS ERROR:", str(e))
         return None
     
+
