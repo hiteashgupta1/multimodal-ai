@@ -1,8 +1,8 @@
 import requests
 import base64
 import time
-from evaluation.log_metrics import log_metric
-from experiments.experiment_tracker import log_experiment
+from backend.evaluation.log_metrics import log_metric
+from backend.experiments.experiment_tracker import log_experiment
 
 COLAB_URL = "https://galeiform-cathleen-unloveably.ngrok-free.dev"
 
@@ -43,3 +43,4 @@ def generate_image(prompt):
     except Exception as e:
         print("COLAB CONNECTION ERROR:", str(e))
         return None, 0.1
+
